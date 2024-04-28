@@ -86,7 +86,7 @@ pub struct TextArea<'a> {
     history: History,
     cursor_line_style: Style,
     line_number_style: Option<Style>,
-    pub(crate) viewport: Viewport,
+    pub viewport: Viewport,
     cursor_style: Style,
     yank: YankText,
     #[cfg(feature = "search")]
