@@ -13,6 +13,8 @@ use crate::widget::{Renderer, Viewport};
 use crate::word::{find_word_end_forward, find_word_start_backward};
 #[cfg(feature = "ratatui")]
 use ratatui::text::Line;
+#[cfg(feature = "serde")]
+use serde::Serialize;
 use std::cmp::Ordering;
 use std::fmt;
 #[cfg(feature = "tuirs")]
@@ -97,6 +99,16 @@ pub struct TextArea<'a> {
     mask: Option<char>,
     selection_start: Option<(usize, usize)>,
     select_style: Style,
+}
+
+#[cfg(feature = "serde")]
+impl Serialize for TextArea<'_> {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        serializer.serialize_str(&self.lines.join("\n"))
+    }
 }
 
 /// Convert any iterator whose elements can be converted into [`String`] into [`TextArea`]. Each [`String`] element is
